@@ -10,7 +10,7 @@ class CarDetailsList extends React.Component {
     this.handeClick = this.handleClick.bind(this);
   }
 
-  dataDidMount() {
+  componentDidMount() {
     fetch('/api/cars/')
       .then(response => response.json())
       .then(carDetailsData => {
