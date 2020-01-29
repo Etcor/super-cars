@@ -24,7 +24,7 @@ class Details1 extends React.Component {
     const { car } = this.state;
     return !car
       ? <div>Loading...</div>
-      : <div className="container ">
+      : <div className="container bg-list">
         <div className="card p-2">
           <h1 className="jumbotron-fluid text-center bg-white font-weight-bold font-italic">
             {car.make}
@@ -68,7 +68,7 @@ class Details1 extends React.Component {
             <Link to="/reservations">
               <button type="button" className="btn btn-sm btn-outline-secondary">Book Now</button>
             </Link>
-            <button type="button" className="btn btn-sm btn-outline-secondary"><Link to="/car-video">Video</Link></button>
+            <button type="button" className="btn btn-sm btn-outline-secondary"><Link to="/car-video/">Video</Link></button>
           </div>
         </div>
       </div>;

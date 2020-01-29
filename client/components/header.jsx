@@ -30,11 +30,11 @@ class Header extends React.Component {
           className={`back-btn fas fa-chevron-left pl-3 ${displayBackButton}`}>
         </i>
         <div className="title">{this.props.title}</div>
-       <i
-         className={`account-btn fas fa-user pr-3 ${displayUserButton}`}
-              style = {{ cursor: 'pointer' }}
-              onClick={this.drawerToggleClickHandler}>
-            </i>
+        <i
+          className={`account-btn fas fa-user pr-3 ${displayUserButton}`}
+          style = {{ cursor: 'pointer' }}
+          onClick={this.drawerToggleClickHandler}>
+        </i>
         {drawerClicked
           ? (
             <div>
