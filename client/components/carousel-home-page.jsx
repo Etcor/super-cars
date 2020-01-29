@@ -41,7 +41,7 @@ class HomePageCarousel extends React.Component {
     return (
       <div className='row'>
         <div id='mainPageCarousel' className='carousel slide' data-ride='carousel' data-interval='5000'>
-          <div className='carousel-inner' role='listbox' style={{ height: '32vh' }}>
+          <div className='carousel-inner' role='listbox'>
             <div className='mainCarouselItem carousel-item active'>
               <img src={carsImages[0]} className='mainCarouselImage'/>
             </div>

@@ -5,7 +5,8 @@ export default class Reservation extends React.Component {
     this.state = {
       car: null,
       user: null,
-      isBooked: false
+      isBooked: false,
+      isLocationSame: false
     };
   }
 
@@ -33,50 +34,50 @@ export default class Reservation extends React.Component {
            Book Your Reservation, {user.firstName}!
           </h6>
         </div>
-        <form>
+        <form className="form-inline">
           <div className="form-check mb-2 mr-sm-2">
             <input className="form-check-input" type="checkbox" id="inlineFormCheck"></input>
             <label className="form-check-label" htmlFor="inlineFormCheck">
               Drop-off location is the same
             </label>
           </div>
-          <div className="form-group">
-            <div className="input-group-prepend">
-              <div className="input-group-text fas fa-search-location"></div>
-              <input type="text" className="form-control" id="formGroupExampleInput" placeholder="Pick-Up Location"></input>
+          <div className="form-row">
+            <div className="col">
+              <div className="input-group-prepend">
+                <div className="input-group-text fas fa-search-location"></div>
+                <input type="text" className="form-control" placeholder="Pick-up Location"></input>
+              </div>
+            </div>
+            <div className="col">
+              <div className="input-group-prepend">
+                <div className="input-group-text fas fa-search-location"></div>
+                <input type="text" className="form-control" placeholder="Drop-off Location"></input>
+              </div>
             </div>
           </div>
-          <form className="form-inline">
-            <div className="form-group">
+
+          <div className="form-row mt-3">
+            <div className="col">
               <div className="input-group-prepend">
                 <div className="input-group-text fas fa-calendar-alt"></div>
-                <input type="text" className="form-control" id="formGroupExampleInput2" placeholder="Pick-Up Date"></input>
+                <input type="text" className="form-control" placeholder="Pick-up Date"></input>
               </div>
             </div>
-            <div className="form-group">
+            <div className="col">
               <div className="input-group-prepend">
-                <div className="input-group-text fas fa-clock"></div>
-                <input type="text" className="form-control" id="formGroupExampleInput2" placeholder="Pick-Up Time"></input>
+                <div className="input-group-text fas fa-calendar-alt"></div>
+                <input type="text" className="form-control" placeholder="Drop-off Date"></input>
               </div>
             </div>
-            <form className="form-inline">
-              <div className="form-group">
-                <div className="input-group-prepend">
-                  <div className="input-group-text fas fa-calendar-alt"></div>
-                  <input type="text" className="form-control" id="formGroupExampleInput2" placeholder="Drop-Off Date"></input>
-                </div>
-              </div>
-              <div className="form-group">
-                <div className="input-group-prepend">
-                  <div className="input-group-text fas fa-clock"></div>
-                  <input type="text" className="form-control" id="formGroupExampleInput2" placeholder="Drop-Off Time"></input>
-                </div>
-              </div>
-
-            </form>
-
-          </form>
+          </div>
         </form>
+        <div className="rectangle">
+          <h4 className="vehicle-overview text-center mt-5">Vehicle Overview</h4>
+          <div className="vehicle">{this.props.image}</div>
+        </div>
+        <div className="col-md-4 text-center fixed-bottom mb-5">
+          <button type="button" className="btn btn-secondary btn-sm">Reserve Now</button>
+        </div>
       </div>
     ;
   }

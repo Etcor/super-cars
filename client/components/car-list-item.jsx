@@ -2,32 +2,36 @@ import React from 'react';
 
 function CarListItem(props) {
   const status = props.availability ? 'Available' : 'Unavailable';
+  const statusColor = props.availability ? { color: 'green' } : { color: 'red' };
   return (
     <div
-      className="card mb-2 p-2"
-      style={{ height: '100%' }}
+      className="card mb-3"
+      style={{ height: '100%', overflow: 'hidden' }}
       onClick={() => props.history.push(`/cars/${props.carId}`)}>
       <img
         src={props.image}
-        className="card-img-top"
-        style={{
-          objectFit: 'cover',
-          height: '15em'
-        }}>
+        className="card-img-top list-img"
+        style={{ objectFit: 'cover', height: '15em' }}>
       </img>
       <div className="card-body">
         <div className="row">
-          <h6 className="card-title col-6">
+          <h4
+            style={{ fontWeight: '600', color: '#2f3640' }}
+            className="card-title col-6 p-0">
             {props.make}
-          </h6>
-          <h6
-            style={props.availability ? { color: 'green' } : { color: 'red' }}
-            className="card-title text-right col-6">
+          </h4>
+          <h5
+            style={statusColor}
+            className="card-title col-6 text-right mt-1">
             {status}
-          </h6>
+          </h5>
         </div>
-        <div className="card-text">
+        <p className="card-text">
           {props.shortDescription}
+        </p>
+        <div className="row">
+          <p className="card-text title text-muted text-left col-6 p-0 m-0">${props.rate} / day</p>
+          <p className="card-text text-muted text-right col-6 mt-1">View details</p>
         </div>
       </div>
     </div>

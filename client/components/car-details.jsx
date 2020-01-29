@@ -1,6 +1,7 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
-class Details extends React.Component {
+class Details1 extends React.Component {
   constructor(props) {
     super(props);
     this.state = { car: null };
@@ -48,7 +49,7 @@ class Details extends React.Component {
               {car.shortDescription}
             </h4>
 
-            <div className="mt-5"></div>
+            <div className="mt-3"></div>
             <div className="card-text font-weight-bold font-italic">
                         Top Speed: {car.topSpeed} mph
             </div>
@@ -63,13 +64,15 @@ class Details extends React.Component {
         <div className="mt-2"></div>
         <div className="d-flex flex-column align-items-center " >
           <div className="btn-group text-center" >
-            <button type="button" className="btn btn-sm btn-outline-secondary">Video</button>
-            <button type="button" className="btn btn-sm btn-outline-secondary">Book Now</button>
-            <button type="button" className="btn btn-sm btn-outline-secondary">Back</button>
+            <button type="button" className="btn btn-sm btn-outline-secondary"><Link to="/home-page">Back</Link></button>
+            <Link to="/reservations">
+              <button type="button" className="btn btn-sm btn-outline-secondary">Book Now</button>
+            </Link>
+            <button type="button" className="btn btn-sm btn-outline-secondary"><Link to="/car-video">Video</Link></button>
           </div>
         </div>
       </div>;
   }
 }
 
-export default Details;
+export default Details1;

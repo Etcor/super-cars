@@ -8,26 +8,33 @@ import {
   useRouteMatch
 } from 'react-router-dom';
 import CarListItem from './car-list-item';
+import Header from './header';
 
 class SearchFilter extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      category: '',
-      orderBy: ''
-    };
+    if (localStorage.getItem('searchParams')) {
+      this.state = JSON.parse(localStorage.getItem('searchParams'));
+    } else {
+      this.state = {
+        category: '',
+        orderBy: ''
+      };
+    }
     this.handleCategoryChange = this.handleCategoryChange.bind(this);
     this.handleOrderByChange = this.handleOrderByChange.bind(this);
   }
 
   handleCategoryChange(event) {
     this.setState({ category: event.target.value }, () => {
+      localStorage.setItem('searchParams', JSON.stringify(this.state));
       this.props.filterCars(this.state);
     });
   }
 
   handleOrderByChange(event) {
     this.setState({ orderBy: event.target.value }, () => {
+      localStorage.setItem('searchParams', JSON.stringify(this.state));
       this.props.filterCars(this.state);
     });
   }
@@ -35,25 +42,22 @@ class SearchFilter extends React.Component {
   render() {
     return (
       <div
-        style={{ background: '#aaa69d' }}
-        className="container py-2">
-        <div className="d-flex align-items-center">
-          <div className="mr-1">View</div>
+        className="container py-2 filter-bg">
+        <div className="d-flex align-items-center justify-content-between">
+          <div className="mr-1 filter-label">View</div>
           <select
-            style={{ background: 'white' }}
-            className="btn btn-sm mr-1"
             value={this.state.category}
+            className="btn btn-sm mr-1 filter-dropdown"
             onChange={this.handleCategoryChange}>
             <option value="All">All</option>
             <option value="Hypercar">Hyper cars</option>
             <option value="Supercar">Super cars</option>
             <option value="Muscle">Muscle cars</option>
           </select>
-          <div className="mr-1">Sort by</div>
+          <div className="mr-1 filter-label">Sort by</div>
           <select
-            style={{ background: 'white' }}
-            className="btn btn-sm ml-1"
             value={this.state.orderBy}
+            className="btn btn-sm ml-1 filter-dropdown"
             onChange={this.handleOrderByChange}>
             <option value=''></option>
             <option value="topSpeed">Top Speed</option>
@@ -71,7 +75,11 @@ export default class CarList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      cars: []
+      cars: [],
+      filter: {
+        orderBy: '',
+        category: ''
+      }
     };
     this.filterCars = this.filterCars.bind(this);
   }
@@ -104,6 +112,7 @@ export default class CarList extends React.Component {
       params.append('category', category);
     }
     this.props.history.push(`/cars?${params.toString()}`);
+    this.setState({ filter: { orderBy, category } });
   }
 
   displayCars() {
@@ -117,16 +126,17 @@ export default class CarList extends React.Component {
 
   render() {
     return (
-      <React.Fragment>
-        <SearchFilter filterCars={this.filterCars}/>
+      <div className="bg-list">
+        <Header title="All Cars" history={this.props.history} back={true} user={true}/>
         <div
           className="container-fluid px-0"
-          style={{ height: '88vh', overflow: 'auto' }}>
-          <div className="container flex-column px-2">
+          style={{ paddingTop: '45px' }}>
+          <SearchFilter filterCars={this.filterCars}/>
+          <div className="container">
             {this.displayCars()}
           </div>
         </div>
-      </React.Fragment>
+      </div>
     );
   }
 }
