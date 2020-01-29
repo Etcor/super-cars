@@ -1,17 +1,60 @@
 import React from 'react';
+import 'react-dates/initialize';
+import moment from 'moment';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+
 export default class Reservation extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      car: null,
-      user: null,
-      isBooked: false,
-      isLocationSame: false
+      carId: [],
+      user: '',
+      startDate: new Date(),
+      endDate: new Date(),
+      total: ''
     };
+    this.handleChangeEnd = this.handleChangeEnd.bind(this);
+    this.handleChangeStart = this.handleChangeStart.bind(this);
+    this.getCarOverview = this.getCarOverview.bind(this);
+    this.getUser = this.getUser.bind(this);
+    this.reservationInput = this.reservationInput.bind(this);
+    this.submitReservationInformation = this.submitReservationInformation.bind(this);
+
   }
 
   componentDidMount() {
     this.getUser();
+    this.getCarOverview();
+  }
+
+  getCarOverview() {
+    // const { id } = this.props.match.params;
+    fetch('/api/cars/2')
+      .then(res => res.json())
+      .then(carId => this.setState({ carId }))
+      .catch(err => console.error(err));
+  }
+
+  reservationInput(event) {
+    this.setState({ [event.target.name]: event.target.value });
+  }
+
+  submitReservationInformation() {
+    console.log('this happened');
+    event.preventDefault();
+    const { carId, total, startDate, endDate } = this.state;
+
+    fetch('/api/rentals', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(carId, total, startDate, endDate)
+    })
+      .then(response => response.json())
+      .then(data => { console.log('data: ', data); })
+      .catch(err => console.error(err));
   }
 
   getUser() {
@@ -22,11 +65,38 @@ export default class Reservation extends React.Component {
       .catch(err => console.error(err));
   }
 
+  handleChangeStart(date) {
+    this.setState(
+      {
+        startDate: date
+      },
+      () => this.calculateDaysLeft()
+    );
+  }
+
+  handleChangeEnd(date) {
+    this.setState(
+      {
+        endDate: date
+      },
+      () => this.calculateDaysLeft()
+    );
+  }
+
+  calculateDaysLeft(startDate, endDate) {
+    if (!moment.isMoment(startDate)) startDate = moment(startDate);
+    if (!moment.isMoment(endDate)) endDate = moment(endDate);
+
+    return endDate.diff(startDate, 'days');
+  }
+
   render() {
-    const { user } = this.state;
+    const { carId, total, startDate, endDate, user } = this.state;
+    const daysLeft = this.calculateDaysLeft(startDate, endDate);
+    const rate = daysLeft * carId.rate;
     return !user
       ? <div>Loading...</div>
-      : <div className="container">
+      : <div className="container bg-list">
         <div className="row text-white bg-dark mt-5">
           <h6
             className="reservation-opener text-center col-12"
@@ -34,50 +104,48 @@ export default class Reservation extends React.Component {
            Book Your Reservation, {user.firstName}!
           </h6>
         </div>
-        <form className="form-inline">
-          <div className="form-check mb-2 mr-sm-2">
-            <input className="form-check-input" type="checkbox" id="inlineFormCheck"></input>
-            <label className="form-check-label" htmlFor="inlineFormCheck">
-              Drop-off location is the same
-            </label>
-          </div>
-          <div className="form-row">
-            <div className="col">
-              <div className="input-group-prepend">
-                <div className="input-group-text fas fa-search-location"></div>
-                <input type="text" className="form-control" placeholder="Pick-up Location"></input>
-              </div>
-            </div>
-            <div className="col">
-              <div className="input-group-prepend">
-                <div className="input-group-text fas fa-search-location"></div>
-                <input type="text" className="form-control" placeholder="Drop-off Location"></input>
-              </div>
-            </div>
-          </div>
+        <form className="date-form" onSubmit={this.submitreservationInformation}>
+          <div className="date-row"> Choose Your Date!</div>
+          <div className="date-pickers col">
+            <div>
+              <b>Start Date</b>:
+              <DatePicker
 
-          <div className="form-row mt-3">
-            <div className="col">
-              <div className="input-group-prepend">
-                <div className="input-group-text fas fa-calendar-alt"></div>
-                <input type="text" className="form-control" placeholder="Pick-up Date"></input>
-              </div>
+                selected={this.state.startDate}
+                onChange={this.handleChangeStart}
+                minDate={moment().toDate()}
+                placeholderText="Select a day"
+              />
             </div>
-            <div className="col">
-              <div className="input-group-prepend">
-                <div className="input-group-text fas fa-calendar-alt"></div>
-                <input type="text" className="form-control" placeholder="Drop-off Date"></input>
-              </div>
+            &nbsp;&nbsp;&nbsp;
+            <div>
+              <b>End Date</b>:
+              <DatePicker
+                selected={this.state.endDate}
+                onChange={this.handleChangeEnd}
+                minDate={moment().toDate()}
+                placeholderText="Select a day"
+              />
             </div>
+          </div>
+          <div className="rectangle">
+            <h4 className="vehicle-overview text-center ">Vehicle Overview</h4>
+            <div className="vehicle">
+              <img src={carId.image} className="img-fluid"
+                style={{
+                  objectFit: 'cover'
+                }} />
+            </div>
+            <h6 className= "vehicle-name text-center" value={carId} onChange={this.reservationInput}>{carId.make}</h6>
+            <h4 className= "rates">Rates</h4>
+            <h6 className="rates-per-day">${carId.rate}/day</h6>
+            <h6 className="estimated-days" value={total} onChange={this.reservationInput}>Number of day(s):{daysLeft}</h6>
+            <h6 className="estimated-rates" value={total} onChange={this.reservationInput}>Total: ${rate}</h6>
+          </div>
+          <div className="col-md-4 text-center fixed-bottom mb-5">
+            <div className="btn btn-secondary btn-sm" value="submit" onClick={this.submitReservationInformation}>Reserve Now</div>
           </div>
         </form>
-        <div className="rectangle">
-          <h4 className="vehicle-overview text-center mt-5">Vehicle Overview</h4>
-          <div className="vehicle">{this.props.image}</div>
-        </div>
-        <div className="col-md-4 text-center fixed-bottom mb-5">
-          <button type="button" className="btn btn-secondary btn-sm">Reserve Now</button>
-        </div>
       </div>
     ;
   }

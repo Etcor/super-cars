@@ -380,7 +380,7 @@ body{
   padding: 0 2.5vh;
 }
 
-.userLogInEmail {
+.userLogInEmail, .form-control {
   border-radius: 4px;
   width: 100%;
 }
@@ -424,4 +424,22 @@ body{
   width: 40%;
   font-size: 2vh;
   background-color: transparent;
+}
+
+.input-container{
+  justify-content: center;
+  border: 2px solid black
+}
+
+.date-row{
+  position: relative;
+  margin: 0 auto;
+  justify-content: center;
+}
+
+.rectangle{
+  padding-top: 25%;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto
 }

@@ -12,6 +12,8 @@ import UserAccount from './user-account';
 import CreateAccount from './create-user-account';
 import Reservation from './reservation';
 import PastRentals from './past-rentals';
+import DetailVideo from './car-video';
+import 'react-dates/lib/css/_datepicker.css';
 
 export default class App extends React.Component {
   render() {
@@ -24,7 +26,9 @@ export default class App extends React.Component {
             <Route exact path="/" component={Home}/>
             <Route exact path="/cars" component={CarList}/>
             <Route exact path="/cars/:id" component={Details}/>
+            <Route exact path="/cars" component={CarList} />
             <Route exact path="/reservations" component={Reservation} />
+            <Route exact path="/car-video" component={DetailVideo} />
             <Route exact path="/user" component={UserAccount}/>
             <Route exact path="/userlogin" component={UserLogIn} />
             <Route exact path="/user/rentals" component={PastRentals}/>
