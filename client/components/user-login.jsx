@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import React from 'react';
 
 class UserLogIn extends React.Component {
@@ -16,10 +15,9 @@ class UserLogIn extends React.Component {
     this.setState({ [event.target.name]: event.target.value });
   }
 
-  submitUserInformation() {
+  submitUserInformation(event) {
     event.preventDefault();
     const { email, password } = this.state;
-
     fetch('/api/auth', {
       method: 'POST',
       headers: {
@@ -27,15 +25,18 @@ class UserLogIn extends React.Component {
       },
       body: JSON.stringify({ email, password })
     })
-      .then(response => response.json())
-      .then(data => { console.log('data: ', data); })
+      .then(res => res.json())
+      .then(user => {
+        this.props.login(user);
+        this.props.closeDrawer();
+      })
       .catch(err => console.error(err));
   }
 
   render() {
     const { email, password } = this.state;
     return (
-      <div className='container' style={{ height: '100%', backgroundColor: 'white', width: '100%' }}>
+      <div className='container' style={{ height: '100%', width: '100%' }}>
         <div className='welcomeBackText'> Welcome Back </div>
         <div className='userLogInEmailPassword d-flex flex-column'>
           <form className='d-flex flex-column' onSubmit={this.submitUserInformation}>
@@ -45,7 +46,7 @@ class UserLogIn extends React.Component {
             </label>
             <label>
               Password
-              <input name='password' type='text' className='userLogInPassword border' value={password} onChange={this.infoInput}/>
+              <input name='password' type='password' className='userLogInPassword border' value={password} onChange={this.infoInput}/>
             </label>
             <button className='userLogInLogIn mt-2' value='submit'> LOG IN </button>
           </form>
@@ -54,7 +55,7 @@ class UserLogIn extends React.Component {
           <div className='userLogInBotText'> Don&apos;t have an account? </div>
           <button
             className='userLogInSignUp'
-            onClick={() => this.props.setView('signup', {})}>
+            onClick={() => this.props.setView('signup')}>
              SIGN UP
           </button>
         </div>

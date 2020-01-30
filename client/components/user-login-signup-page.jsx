@@ -5,7 +5,7 @@ class UserLoginSignUpPage extends React.Component {
     return (
       <>
         <div className='NavBarContainer container'>
-          <div className='NavBarUpperText'> Sign in to have access to pricing or book a rental. </div>
+          <div className='NavBarUpperText'> Sign in to access your account or to book a rental. </div>
           <div className='NavBarMiddleText'> First time? Sign up, and book your Super Car experience today. </div>
         </div>
         <div className='NavBarButtonContainer'>

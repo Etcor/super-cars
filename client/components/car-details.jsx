@@ -65,7 +65,7 @@ class Details extends React.Component {
         <div className="d-flex flex-column align-items-center " >
           <div className="btn-group text-center" >
             <button type="button" className="btn btn-sm btn-outline-secondary"><Link to="/cars">Back</Link></button>
-            <button type="button" className="btn btn-sm btn-outline-secondary"><Link to={`/reservations${car.carId}`}>Book Now</Link></button>
+            <button type="button" className="btn btn-sm btn-outline-secondary"><Link to={`/cars/reservations/${car.carId}`}>Book Now</Link></button>
             <button type="button" className="btn btn-sm btn-outline-secondary"><Link to="/car-video">Video</Link></button>          </div>
         </div>
       </div>;

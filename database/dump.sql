@@ -77,7 +77,8 @@ CREATE TABLE public.cars (
     rate integer NOT NULL,
     mpg integer NOT NULL,
     category text NOT NULL,
-    availability boolean DEFAULT true NOT NULL
+    availability boolean DEFAULT true NOT NULL,
+    video text
 );
 
 
@@ -195,15 +196,15 @@ ALTER TABLE ONLY public.users ALTER COLUMN "userId" SET DEFAULT nextval('public.
 -- Data for Name: cars; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY public.cars ("carId", make, image, year, "shortDescription", "topSpeed", "horsePower", rate, mpg, category, availability) FROM stdin;
-1	Porsche 918	/images/porsche-918.jpg	2015	The Porsche 918 Spyder is a mid-engine plug-in hybrid sports car manufactured by German automobile manufacturer Porsche.	214	887	2000	22	Hypercar	f
-2	Ferrari La Ferrari	/images/ferrari-la-ferrari.jpg	2016	LaFerrari, project name F150 (also unofficially referred to as the Ferrari LaFerrari or Ferrari F150), is a limited production hybrid sports car built by Italian automotive manufacturer Ferrari.	218	949	2000	13	Hypercar	f
-3	Pagani Huayra	/images/pagani-huayra.jpg	2017	The Pagani Huayra, it’s the successor to the almighty Pagani Zonda and it’s named after a South American wind god called Huayra Tata. 	210	700	1500	16	Supercar	f
-4	Bugatti Chiron	/images/bugatti-chiron.jpg	2018	The Bugatti Chiron is a mid-engine two-seater sports car developed and manufactured in Molsheim, France by French automobile manufacturer Bugatti Automobiles S.A.S..	261	1500	2500	10	Supercar	f
-5	Ford GT	/images/ford-gt.jpg	2019	The teardrop shape of the Ford GT is the result of extensive work in the wind tunnel. Its carbon-fiber body and its 647-horsepower 3.5L EcoBoost® V6 engine are the ultimate expressions of technological innovation.	216	647	1250	10	Supercar	f
-6	Ferrari 328 GTS	/images/ferrari-328-gts.jpg	1989	The Ferrari 328 GTB and GTS (Type F106) are mid-engine V8, two seat sports cars produced by Italian automotive manufacturer Ferrari.	166	260	650	14	Supercar	f
-7	Ford Mustang Shelby GT350	/images/ford-mustang-shelby-gt350.jpg	2019	As a track-ready version of the Ford Mustang, the 2019 Shelby GT350 has even more muscular styling and next-level performance.	180	710	500	16	Muscle	f
-8	Lamborghini Gallardo	/images/lamborghini-gallardo.jpg	2009	The Lamborghini Gallardo is a sports car built by the Italian automotive manufacturer Lamborghini from 2003 to 2013.	202	560	800	15	Supercar	f
+COPY public.cars ("carId", make, image, year, "shortDescription", "topSpeed", "horsePower", rate, mpg, category, availability, video) FROM stdin;
+1	Porsche 918	/images/porsche-918.jpg	2015	The Porsche 918 Spyder is a mid-engine plug-in hybrid sports car manufactured by German automobile manufacturer Porsche.	214	887	2000	22	Hypercar	f	http://www.youtube.com/embed/Wo_6X25DXAQ?start=20&end=50&autoplay=1&loop=1
+2	Ferrari La Ferrari	/images/ferrari-la-ferrari.jpg	2016	LaFerrari, project name F150 (also unofficially referred to as the Ferrari LaFerrari or Ferrari F150), is a limited production hybrid sports car built by Italian automotive manufacturer Ferrari.	218	949	2000	13	Hypercar	f	http://www.youtube.com/embed/k28ANdynLgU?start=58&end=113&autoplay=1&loop=1
+3	Pagani Huayra	/images/pagani-huayra.jpg	2017	The Pagani Huayra, it’s the successor to the almighty Pagani Zonda and it’s named after a South American wind god called Huayra Tata. 	210	700	1500	16	Supercar	f	http://www.youtube.com/embed/3E6P1aQijv8?start=60&end=115&autoplay=1&loop=1
+4	Bugatti Chiron	/images/bugatti-chiron.jpg	2018	The Bugatti Chiron is a mid-engine two-seater sports car developed and manufactured in Molsheim, France by French automobile manufacturer Bugatti Automobiles S.A.S..	261	1500	2500	10	Supercar	f	http://www.youtube.com/embed/uHke3z0Bb-8?start=14&end=47&autoplay=1&loop=1
+5	Ford GT	/images/ford-gt.jpg	2019	The teardrop shape of the Ford GT is the result of extensive work in the wind tunnel. Its carbon-fiber body and its 647-horsepower 3.5L EcoBoost® V6 engine are the ultimate expressions of technological innovation.	216	647	1250	10	Supercar	f	http://www.youtube.com/embed/qnIt8vYJoaY?start=90&end=132&autoplay=1&loop=1
+6	Ferrari 328 GTS	/images/ferrari-328-gts.jpg	1989	The Ferrari 328 GTB and GTS (Type F106) are mid-engine V8, two seat sports cars produced by Italian automotive manufacturer Ferrari.	166	260	650	14	Supercar	f	http://www.youtube.com/embed/YUZnALGSiD0?start=37&end=84&autoplay=1&loop=1
+7	Ford Mustang Shelby GT350	/images/ford-mustang-shelby-gt350.jpg	2019	As a track-ready version of the Ford Mustang, the 2019 Shelby GT350 has even more muscular styling and next-level performance.	180	710	500	16	Muscle	f	http://www.youtube.com/embed/wdAHyK7n3oA?start=20&end=68&autoplay=1&loop=1
+8	Lamborghini Gallardo	/images/lamborghini-gallardo.jpg	2009	The Lamborghini Gallardo is a sports car built by the Italian automotive manufacturer Lamborghini from 2003 to 2013.	202	560	800	15	Supercar	f	http://www.youtube.com/embed/Qr9KWMhJYac?start=97&end=122&autoplay=1&loop=1
 \.
 
 
@@ -231,7 +232,7 @@ COPY public.users ("userId", "firstName", "lastName", email, password, photo, ve
 -- Name: cars_carId_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."cars_carId_seq"', 1, false);
+SELECT pg_catalog.setval('public."cars_carId_seq"', 8, true);
 
 
 --

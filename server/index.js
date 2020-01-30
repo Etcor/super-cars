@@ -136,7 +136,13 @@ app.get('/api/rentals', (req, res, next) => {
 
 app.post('/api/rentals', (req, res, next) => {
   const { userId } = req.session;
+  console.log('userId: ', req.session.userId);
   const { carId, total, startDate, endDate } = req.body;
+  console.log('carId: ', req.body.cardId);
+  console.log('total: ', req.body.total);
+  console.log('startDate: ', req.body.startDate);
+  console.log('endDate: ', req.body.endDate);
+
   if (!userId) {
     return next(new ClientError('User must have a valid Id.', 400));
   } else if (!carId || !total || !startDate || !endDate) {
@@ -178,15 +184,39 @@ app.post('/api/users', (req, res, next) => {
       const accountDetails = [firstName, lastName, email, hash];
       const sql = format(`
           insert into %I (%I)
-          values (%L)
-        returning *;`, 'users', dbColumns, accountDetails
+          values (%L)`, 'users', dbColumns, accountDetails
       );
       return (
         db.query(sql)
-          .then(result => {
-            const user = result.rows[0];
-            res.json(user);
-          }));
+          .then(result => res.status(201).json({
+            message: 'Account created successfully.'
+          }))
+      );
+    }).catch(err => next(err));
+});
+
+app.get('/api/auth', (req, res, next) => {
+  if (!req.session.userId) {
+    return res.json({ user: null });
+  }
+  const sql = `
+    select "u"."userId",
+           "u"."firstName",
+           "u"."lastName",
+           "u"."email",
+           "u"."verified"
+      from "users" as "u"
+     where "userId" = $1
+     group by "u"."userId"
+     limit 1
+  `;
+  const params = [req.session.userId];
+  db
+    .query(sql, params)
+    .then(result => {
+      const user = result.rows[0];
+      req.session.userId = user.userId;
+      res.json({ user });
     })
     .catch(err => next(err));
 });
@@ -227,6 +257,39 @@ app.post('/api/auth', (req, res, next) => {
       );
     })
     .catch(err => next(err));
+});
+
+app.put('/api/users/:userId', (req, res, next) => {
+  const { firstName, lastName, email } = req.body;
+  const { userId } = req.session;
+  const userIdIsValid = typeof parseInt(userId) === 'number' && userId > 0;
+
+  if (!userIdIsValid) {
+    throw next(new ClientError('Id must be a positive integer.', 400));
+  } else if (!firstName || !lastName || !email) {
+    throw next(new ClientError('Cannot find all information', 400));
+  }
+
+  const sql = format(
+      `update %I
+          set "firstName" = %L,
+              "lastName" = %L,
+              "email" = %L
+        where "userId" = %L
+    returning *;`, 'users', firstName, lastName, email, userId
+  );
+
+  db.query(sql)
+    .then(result => {
+      const user = result.rows[0];
+      res.json(user);
+    })
+    .catch(err => next(err));
+});
+
+app.delete('/api/auth', (req, res, next) => {
+  delete req.session.userId;
+  return res.status(204).json({ user: null });
 });
 
 app.use('/api', (req, res, next) => {

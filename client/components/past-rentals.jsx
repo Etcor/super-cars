@@ -1,8 +1,10 @@
 import React from 'react';
+import Header from './header';
 
 function RentalListItem(props) {
   const date = new Date(props.startDate);
   const availability = props.availability ? 'Available' : 'Unavailable';
+  const statusColor = props.availability ? { color: 'green' } : { color: 'red' };
   const buttonState = () => {
     return props.availability
       ? <button
@@ -18,13 +20,11 @@ function RentalListItem(props) {
         AVAILABLE CARS
       </button>;
   };
+
   return (
     <div className="card p-1 mb-2">
       <div className="row">
-        <img
-          src={props.image}
-          className="col-7 px-1"
-          style={{ objectFit: 'contain' }}/>
+        <img src={props.image} className="col-7 px-1" style={{ objectFit: 'contain' }}/>
         <div className="col-5 px-1">
           <div className="p-1 text-center">
             <div className="card-title">
@@ -35,8 +35,7 @@ function RentalListItem(props) {
             </div>
             <div className="card-text">
               Status:
-              <p
-                style={props.availability ? { color: 'green' } : { color: 'red' }}>
+              <p style={statusColor}>
                 {availability}
               </p>
             </div>
@@ -52,49 +51,15 @@ class PastRentals extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      rentals: [
-        {
-          availability: true,
-          carId: 1,
-          endDate: '2020-01-10T20:00:00.000Z',
-          image: '/images/porsche-918.jpg',
-          make: 'Porsche 918',
-          rentalId: 4,
-          startDate: '2020-01-08T20:00:00.000Z',
-          total: 2000,
-          userId: 13
-        },
-        {
-          availability: false,
-          carId: 3,
-          endDate: '2020-01-21T20:00:00.000Z',
-          image: '/images/pagani-huayra.jpg',
-          make: 'Pagani Huayra',
-          rentalId: 5,
-          startDate: '2020-01-20T20:00:00.000Z',
-          total: 2000,
-          userId: 13
-        },
-        {
-          availability: false,
-          carId: 5,
-          endDate: '2020-01-27T20:00:00.000Z',
-          image: '/images/ford-gt.jpg',
-          make: 'Ford GT',
-          rentalId: 6,
-          startDate: '2020-01-25T20:00:00.000Z',
-          total: 2000,
-          userId: 13
-        }
-      ]
+      rentals: []
     };
   }
 
   componentDidMount() {
-    // fetch('/api/rentals')
-    //   .then(res => res.json())
-    //   .then(rentals => this.setState({ rentals }))
-    //   .catch(err => console.error(err));
+    fetch('/api/rentals')
+      .then(res => res.json())
+      .then(rentals => this.setState({ rentals }))
+      .catch(err => console.error(err));
   }
 
   displayPastRentals() {
@@ -102,14 +67,24 @@ class PastRentals extends React.Component {
     return rentals.length === 0
       ? <h4>No rental history found</h4>
       : rentals.map(car => {
-        return <RentalListItem key={car.carId} history={this.props.history} {...car} />;
+        return <RentalListItem {...car} key={car.carId} history={this.props.history} />;
       });
   }
 
   render() {
     return (
-      <div className="container">
-        {this.displayPastRentals()}
+      <div
+        style={{ height: '100%' }}
+        className="container bg-account px-0 pt-4">
+        <Header
+          back={true}
+          title="Past Rentals"
+          history={this.props.history} />
+        <div
+          style={{ paddingTop: '45px' }}
+          className="container d-flex justify-content-center">
+          {this.displayPastRentals()}
+        </div>
       </div>
     );
   }

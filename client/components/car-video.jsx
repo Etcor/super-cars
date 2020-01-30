@@ -31,7 +31,7 @@ class DetailVideo extends React.Component {
 
           <div>
             <iframe className="iframe-container"
-              src= "http://www.youtube.com/embed/Wo_6X25DXAQ?start=20&end=50&autoplay=1&loop=1" >
+              src={car.video} >
             </iframe>
           </div>
           <h1 className="jumbotron-fluid text-center bg-white font-weight-bold font-italic">
