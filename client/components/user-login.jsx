@@ -1,4 +1,5 @@
 import React from 'react';
+import AppContext from '../lib/context';
 
 class UserLogIn extends React.Component {
   constructor(props) {
@@ -27,7 +28,7 @@ class UserLogIn extends React.Component {
     })
       .then(res => res.json())
       .then(user => {
-        this.props.login(user);
+        this.context.login(user);
         this.props.closeDrawer();
       })
       .catch(err => console.error(err));
@@ -46,12 +47,12 @@ class UserLogIn extends React.Component {
             </label>
             <label>
               Password
-              <input name='password' type='text' className='userLogInPassword border' value={password} onChange={this.infoInput}/>
+              <input name='password' type='password' className='userLogInPassword border' value={password} onChange={this.infoInput}/>
             </label>
-            <button className='userLogInLogIn mt-2' value='submit'> LOG IN </button>
+            <button className='userLogInLogIn mt-4' value='submit'> LOG IN </button>
           </form>
         </div>
-        <div className='userLogInBottomContainer'>
+        <div className='userLogInBottomContainer mt-2'>
           <div className='userLogInBotText'> Don&apos;t have an account? </div>
           <button
             className='userLogInSignUp'
@@ -63,5 +64,7 @@ class UserLogIn extends React.Component {
     );
   }
 }
+
+UserLogIn.contextType = AppContext;
 
 export default UserLogIn;

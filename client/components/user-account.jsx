@@ -1,5 +1,6 @@
 import React from 'react';
 import Header from './header';
+import { Link } from 'react-router-dom';
 import AppContext from '../lib/context';
 
 class UserAccount extends React.Component {
@@ -38,7 +39,7 @@ class UserAccount extends React.Component {
   logout() {
     fetch('/api/auth', { method: 'DELETE' })
       .then(res => {
-        this.props.logout(null);
+        this.context.logout(null);
         return this.props.history.push('/');
       })
       .catch(err => console.error(err));
@@ -58,11 +59,11 @@ class UserAccount extends React.Component {
           <i className="fas fa-user fa-7x mb-3"/>
           <h4 className="mb-4">{firstName} {lastName}</h4>
           {this.verifyUser()}
-          <button
+          <Link to={'/user/update'}
             style={{ width: '250px' }}
             className="btn btn-outline-dark mb-3">
               UPDATE ACCOUNT INFO
-          </button>
+          </Link>
           <button
             style={{ width: '250px' }}
             onClick={() => this.props.history.push('/user/rentals')}

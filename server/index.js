@@ -253,6 +253,34 @@ app.post('/api/auth', (req, res, next) => {
     .catch(err => next(err));
 });
 
+app.put('/api/users/:userId', (req, res, next) => {
+  const { firstName, lastName, email } = req.body;
+  const { userId } = req.session;
+  const userIdIsValid = typeof parseInt(userId) === 'number' && userId > 0;
+
+  if (!userIdIsValid) {
+    throw next(new ClientError('Id must be a positive integer.', 400));
+  } else if (!firstName || !lastName || !email) {
+    throw next(new ClientError('Cannot find all information', 400));
+  }
+
+  const sql = format(
+      `update %I
+          set "firstName" = %L,
+              "lastName" = %L,
+              "email" = %L
+        where "userId" = %L
+    returning *;`, 'users', firstName, lastName, email, userId
+  );
+
+  db.query(sql)
+    .then(result => {
+      const user = result.rows[0];
+      res.json(user);
+    })
+    .catch(err => next(err));
+});
+
 app.delete('/api/auth', (req, res, next) => {
   delete req.session.userId;
   return res.status(204).json({ user: null });

@@ -10,12 +10,12 @@ class UserLoginSignUpPage extends React.Component {
         </div>
         <div className='NavBarButtonContainer'>
           <div
-            className='logIn my-3'
+            className='logIn my-2'
             onClick={() => this.props.setView('login', {})}>
             LOG IN
           </div>
           <div
-            className='signUp'
+            className='signUp mt-1'
             onClick={() => this.props.setView('signup', {})}>
             SIGN UP
           </div>

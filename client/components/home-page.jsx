@@ -1,5 +1,6 @@
 import React from 'react';
 import HomePageCarousel from './main-carousel';
+import { Link } from 'react-router-dom';
 import Header from './header';
 
 class Home extends React.Component {
@@ -8,21 +9,18 @@ class Home extends React.Component {
     return (
       <div className="home-bg-img">
         <div className="bg-filter">
-          <Header title="Super Car Experience" history={this.props.history} user={true} login={this.props.login}/>
+          <Header title="Super Car Experience" history={this.props.history} user={true}/>
           <div className="container-vertical pt-5">
-            <div
-              className="home-title">
+            <div className="home-title">
               DISCOVER
-              <p
-                style={{ fontSize: '1.6rem' }}
-                className="text-right m-0">
+              <p style={{ fontSize: '1.6rem' }} className="text-right m-0">
                 YOUR
               </p>
             </div>
             <div className="carousel"> <HomePageCarousel/> </div>
-            <button
-              onClick={() => this.props.history.push('/cars')}
-              id="view-cars">VIEW CARS</button>
+            <Link to={'/cars'} style={{ textDecoration: 'none' }} id="view-cars">
+              VIEW CARS
+            </Link>
           </div>
         </div>
       </div>

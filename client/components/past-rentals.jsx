@@ -8,13 +8,13 @@ function RentalListItem(props) {
   const buttonState = () => {
     return props.availability
       ? <button
-        style={{ width: '100%', fontSize: '.85em' }}
+        style={{ width: '100%', fontSize: '.85rem' }}
         onClick={() => props.history.push(`/cars/${props.carId}`)}
         className="btn btn-sm btn-outline-secondary">
         BOOK AGAIN
       </button>
       : <button
-        style={{ width: '100%', fontSize: '.85em' }}
+        style={{ width: '100%', fontSize: '.85rem' }}
         onClick={() => props.history.push('/cars')}
         className="btn btn-sm btn-outline-secondary">
         AVAILABLE CARS

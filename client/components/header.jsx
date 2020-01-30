@@ -1,5 +1,6 @@
 import React from 'react';
 import NavMenu from './nav-menu';
+import { Link } from 'react-router-dom';
 import AppContext from '../lib/context';
 
 class Header extends React.Component {
@@ -26,18 +27,16 @@ class Header extends React.Component {
 
   sideBar() {
     const { drawerClicked } = this.state;
-    return drawerClicked
-      ? (
-        <React.Fragment>
-          <NavMenu
-            history={this.props.history}
-            login={this.props.login}
-            drawerOpen={this.drawerToggleClickHandler}
-            show={drawerClicked} />
-          <div className='backdrop' />
-        </React.Fragment>
-      )
-      : <div className='d-none'/>;
+    return (
+      <React.Fragment>
+        {drawerClicked ? <div className='backdrop' /> : <div className='d-none' />}
+        <NavMenu
+          history={this.props.history}
+          login={this.props.login}
+          drawerOpen={this.drawerToggleClickHandler}
+          show={drawerClicked} />
+      </React.Fragment>
+    );
   }
 
   render() {
@@ -45,10 +44,9 @@ class Header extends React.Component {
     const displayUserButton = this.props.user ? '' : 'd-none';
     return (
       <nav className="navbar fixed-top justify-content-center text-light header">
-        <i
-          onClick={() => this.props.history.goBack()}
-          className={`back-btn fas fa-chevron-left pl-3 ${displayBackButton}`}>
-        </i>
+        <Link to={this.props.linkTo || '/'}>
+          <i className={`back-btn fas fa-chevron-left pl-3 ${displayBackButton}`}/>
+        </Link>
         <div className="title">
           {this.props.title}
         </div>
