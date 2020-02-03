@@ -31,6 +31,8 @@ Link: https://supercars.ethancordes.com
 - User can login to their account
 - User can upload a photo
 - User can edit their account details
+- User can make a reservation
+- User can customize their reservation
 - User can view their past rentals
 
 ## Preview
