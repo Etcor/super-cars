@@ -2,6 +2,18 @@
 
 A full stack PERN web application for users who want to rent and experience super cars.
 
+### Figma
+
+https://www.figma.com/file/nromB5pPToLEc15l6IfesM/Final-Project-Layout?node-id=0%3A1
+
+### Meistertask
+
+https://www.meistertask.com/app/project/5Y5dPX56/final-project-super-cars
+
+### DB Schema
+
+https://app.dbdesigner.net/designer/schema/0-super-cars
+
 ## Technologies Used
 
 - React.js
