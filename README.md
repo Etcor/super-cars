@@ -37,4 +37,4 @@ Link: https://supercars.ethancordes.com
 
 ## Preview
 
-Under Construction
+![super-cars-demo](https://user-images.githubusercontent.com/55867613/73698404-ebe5d180-4695-11ea-89e4-d9c7dce11bd7.gif)
