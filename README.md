@@ -1,46 +1,38 @@
-# GitHub Process
+# Super Cars
 
+A full stack PERN web application for users who want to rent and experience super cars.
 
-### Before you start a feature
+## Technologies Used
 
-Make sure you are on the `dev` branch in your terminal
+- React.js
+- HTML5
+- CSS3
+- Reactstrap
+- Bootstrap 4
+- Node.js
+- Express
+- Webpack 4
+- Babel / Babel loader
+- Bcrypt
+- PostgreSQL
+- AWS EC2
 
-Create a new branch `git checkout -b *feature-name*`
+## Live Demo
 
-When you complete one of the checklist items for the feature found in Meistertask:
+Link: https://supercars.ethancordes.com
 
-Add and commit your work! You can copy the message from Meistertask, or create your own.
+## Features
 
-**Note**: You do not have to push the branch at this time
+- User can view a list of cars
+- User can filter cars by category, top speed, etc.
+- User can view details for each car
+- User can view a video of each car
+- User can create an account
+- User can login to their account
+- User can upload a photo
+- User can edit their account details
+- User can view their past rentals
 
+## Preview
 
-### Before you submit a pull request
-
-Make sure you are on the `dev` branch in GitHub
-
-If you did not add a meaningful commit message on the command line, add one now
-
-**Front End** Please include a screenshot of your progress with your PR
-
-Link your PR in the team Slack
-
-
-### When you are pulling from `dev`
-
-Make sure you are on the `dev` branch in your terminal
-
-Update your `dev` branch `git pull origin dev`
-
-Update your system with any db changes `npm run db:import` 
-
-Install new packages (if any) `npm install`
-
-**If you are currently working on a feature and wish to update your feature branch**
-
-`git checkout dev`
-
-`git pull origin dev`
-
-`git checkout *your feature branch*`
-
-`git merge dev`
+Under Construction
