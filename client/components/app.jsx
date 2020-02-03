@@ -7,7 +7,6 @@ import {
 import Home from './home-page';
 import CarList from './car-list';
 import CarDetails from './car-details';
-import DetailVideo from './car-video';
 import AppContext from '../lib/context';
 import Reservation from './reservation';
 import PastRentals from './past-rentals';
@@ -37,7 +36,8 @@ export default class App extends React.Component {
         this.setState({
           user: result.user,
           isAuthorizing: false
-        }))
+        })
+      )
       .catch(err => console.error(err));
   }
 
@@ -66,7 +66,6 @@ export default class App extends React.Component {
               <Route exact path="/" component={Home} />
               <Route exact path="/cars" component={CarList} />
               <Route exact path="/cars/:id" component={CarDetails} />
-              <Route exact path="/cars/video/:id" component={DetailVideo} />
               <Route exact path="/cars/reservations/:id" component={Reservation} />
               <Route exact path="/user" component={UserAccount} />
               <Route exact path="/user/update" component={UpdateAccount} />

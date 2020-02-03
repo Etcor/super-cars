@@ -10,30 +10,71 @@ class UserAccount extends React.Component {
       firstName: '',
       lastName: '',
       email: '',
-      verified: ''
+      verified: '',
+      photo: ''
     };
     this.logout = this.logout.bind(this);
+    this.onUploadSubmit = this.onUploadSubmit.bind(this);
+    this.onUploadChange = this.onUploadChange.bind(this);
+    this.verification = this.verification.bind(this);
   }
 
   componentDidMount() {
     if (!this.context.user) {
       return this.props.history.push('/');
     }
-    const { firstName, lastName, email, verified } = this.context.user;
-    this.setState({ firstName, lastName, email, verified });
+    this.verification();
+  }
+
+  verification() {
+    const { firstName, lastName, email, verified, photo } = this.context.user;
+    this.setState({ firstName, lastName, email, verified, photo });
   }
 
   verifyUser() {
-    const { verified } = this.state;
+    const { verified, photo } = this.state;
     return verified
-      ? <h5 style={{ paddingBottom: '5em' }}>Verified <i style={{ color: 'green' }} className="fas fa-check"/></h5>
+      ? <h5 >Verified <i style={{ color: 'green' }} className="fas fa-check"/></h5>
       : <React.Fragment>
         <h5>Add photo Id to get verified <i style={{ color: 'red' }} className="fas fa-times"/></h5>
-        <button style={{ width: '250px' }} className="btn btn-outline-dark my-3">UPLOAD</button>
-        <div className="pb-5" style={{ width: '70%', textAlign: 'center' }}>
-          <p>Verification allows us to approve you for a rental more quickly.</p>
+        <form onSubmit={this.onUploadSubmit} className='d-flex flex-column'>
+          <input
+            name='userPhoto'
+            type='file'
+            onChange={this.onUploadChange}
+            style={{ width: '250px', marginBottom: '5px' }}
+            className="btn btn-link border border-dark">
+          </input>
+          <div className='d-flex justify-content-center' style={{ padding: '0 2.5rem' }}>
+            {!photo ? null : <button className='btn btn-danger' type='submit'> SUBMIT </button>}
+          </div>
+        </form>
+        <div className=" d-flex justify-content-center " style={{ width: '70%', height: '100px', textAlign: 'center' }}>
+          <p className='d-flex align-items-center m-0'>Verification allows us to approve you for a rental more quickly.</p>
         </div>
       </React.Fragment>;
+  }
+
+  onUploadSubmit(event) {
+    event.preventDefault();
+
+    const uploadingPhoto = new FormData();
+    uploadingPhoto.append('userPhoto', this.state.photo);
+
+    fetch('/api/upload-image', {
+      method: 'PUT',
+      body: uploadingPhoto
+    })
+      .then(res => res.json())
+      .then(data => {
+        this.context.login(data);
+        this.verification();
+      })
+      .catch(err => console.error(err));
+  }
+
+  onUploadChange(event) {
+    this.setState({ photo: event.target.files[0] });
   }
 
   logout() {
@@ -45,31 +86,45 @@ class UserAccount extends React.Component {
       .catch(err => console.error(err));
   }
 
+  toggleUserPhoto() {
+    const { photo } = this.state;
+    return typeof photo === 'object' || !photo ? <i className="fas fa-user fa-7x mb-3" /> : <img className='userImage' src={`${photo}`} />;
+  }
+
   render() {
     const { firstName, lastName } = this.state;
     return (
       <div
         style={{ paddingTop: '45px', height: '100vh' }}
         className="container px-0 bg-account">
-        <Header title="Your Account" history={this.props.history} back={true}/>
+        <Header
+          back={true}
+          title="Your Account"
+          history={this.props.history}
+        />
         <div
           style={{ height: '100%' }}
           className="d-flex flex-column align-items-center">
-          <h4 className="my-5">Welcome back {firstName}!</h4>
-          <i className="fas fa-user fa-7x mb-3"/>
-          <h4 className="mb-4">{firstName} {lastName}</h4>
+          <h4 className="my-4">
+            Welcome back {firstName}!
+          </h4>
+          {this.toggleUserPhoto()}
+          <h4 className="mb-4">
+            {firstName} {lastName}
+          </h4>
           {this.verifyUser()}
-          <Link to={'/user/update'}
+          <Link
+            to={'/user/update'}
             style={{ width: '250px' }}
-            className="btn btn-outline-dark mb-3">
+            className="btn btn-outline-dark mb-3 mt-3">
               UPDATE ACCOUNT INFO
           </Link>
-          <button
+          <Link
+            to={'/user/rentals'}
             style={{ width: '250px' }}
-            onClick={() => this.props.history.push('/user/rentals')}
             className="btn btn-outline-dark mb-3">
               VIEW PAST RENTALS
-          </button>
+          </Link>
           <button
             style={{ width: '250px' }}
             onClick={this.logout}
@@ -83,5 +138,4 @@ class UserAccount extends React.Component {
 }
 
 UserAccount.contextType = AppContext;
-
 export default UserAccount;

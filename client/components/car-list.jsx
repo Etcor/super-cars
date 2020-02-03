@@ -1,14 +1,6 @@
-/* eslint-disable no-unused-vars */
 import React from 'react';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  useRouteMatch
-} from 'react-router-dom';
-import CarListItem from './car-list-item';
 import Header from './header';
+import CarListItem from './car-list-item';
 
 class SearchFilter extends React.Component {
   constructor(props) {
@@ -127,10 +119,13 @@ export default class CarList extends React.Component {
   render() {
     return (
       <div className="bg-list">
-        <Header title="All Cars" history={this.props.history} back={true} user={true}/>
+        <Header
+          title="All Cars"
+          back={true} user={true}
+          history={this.props.history}/>
         <div
-          className="container-fluid px-0"
-          style={{ paddingTop: '45px' }}>
+          style={{ paddingTop: '45px' }}
+          className="container-fluid px-0">
           <SearchFilter filterCars={this.filterCars}/>
           <div className="container">
             {this.displayCars()}

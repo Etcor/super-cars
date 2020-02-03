@@ -20,7 +20,7 @@ class UserLoginSignUpPage extends React.Component {
             SIGN UP
           </div>
         </div>
-        <div className='NavBarLowerText my-2'> We will never share your data with a third party. </div>
+        <div className='NavBarLowerText text-muted my-2'> We will never share your data <br></br>with a third party. </div>
       </>
     );
   }

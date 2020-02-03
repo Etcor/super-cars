@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Header from './header';
 
 function RentalListItem(props) {
@@ -7,43 +8,48 @@ function RentalListItem(props) {
   const statusColor = props.availability ? { color: 'green' } : { color: 'red' };
   const buttonState = () => {
     return props.availability
-      ? <button
-        style={{ width: '100%', fontSize: '.85rem' }}
-        onClick={() => props.history.push(`/cars/${props.carId}`)}
-        className="btn btn-sm btn-outline-secondary">
-        BOOK AGAIN
-      </button>
-      : <button
-        style={{ width: '100%', fontSize: '.85rem' }}
-        onClick={() => props.history.push('/cars')}
-        className="btn btn-sm btn-outline-secondary">
-        AVAILABLE CARS
-      </button>;
+      ? <Link
+        to={`/cars/${props.carId}`}
+        style={{ width: '15rem', fontSize: '1.1rem' }}
+        className="btn btn-sm btn-outline-secondary mx-auto">
+          BOOK AGAIN
+      </Link>
+      : <Link
+        to={'/cars'}
+        style={{ width: '15rem', fontSize: '1.1rem' }}
+        className="btn btn-sm btn-outline-secondary mx-auto">
+          AVAILABLE CARS
+      </Link>;
   };
 
   return (
-    <div className="card p-1 mb-2">
-      <div className="row">
-        <img src={props.image} className="col-7 px-1" style={{ objectFit: 'contain' }}/>
-        <div className="col-5 px-1">
-          <div className="p-1 text-center">
-            <div className="card-title">
-              {props.make}
-            </div>
-            <div className="card-text">
+    <div className="card mb-3">
+      <img
+        src={props.image}
+        className="card-img-top"
+        style={{ objectFit: 'contain' }}/>
+      <div className="d-flex flex-column card-body">
+        <div
+          style={{ fontSize: '1.5rem' }}
+          className="card-title text-center">
+          {props.make}
+        </div>
+        <div
+          style={{ fontSize: '1.1rem' }}
+          className="card-text text-center">
+          <div className="mb-1">
               Date Rented: {date.toLocaleDateString()}
-            </div>
-            <div className="card-text">
-              Status:
-              <p style={statusColor}>
-                {availability}
-              </p>
-            </div>
-            {buttonState()}
+          </div>
+          <div className="mb-3">
+              Status: <span style={statusColor}>{availability}</span>
           </div>
         </div>
+        {
+          buttonState()
+        }
       </div>
     </div>
+
   );
 }
 
@@ -65,9 +71,9 @@ class PastRentals extends React.Component {
   displayPastRentals() {
     const { rentals } = this.state;
     return rentals.length === 0
-      ? <h4>No rental history found</h4>
+      ? <h5 className="text-center mt-3">No rental history found</h5>
       : rentals.map(car => {
-        return <RentalListItem {...car} key={car.carId} history={this.props.history} />;
+        return <RentalListItem {...car} key={car.carId} />;
       });
   }
 
@@ -75,14 +81,14 @@ class PastRentals extends React.Component {
     return (
       <div
         style={{ height: '100%' }}
-        className="container bg-account px-0 pt-4">
+        className="container-fluid bg-account pt-3">
         <Header
           back={true}
           title="Past Rentals"
-          history={this.props.history} />
+          linkTo={'/user'} />
         <div
           style={{ paddingTop: '45px' }}
-          className="container d-flex justify-content-center">
+          className="d-flex flex-column justify-content-center">
           {this.displayPastRentals()}
         </div>
       </div>

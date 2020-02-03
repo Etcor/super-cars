@@ -26,10 +26,17 @@ class UserLogIn extends React.Component {
       },
       body: JSON.stringify({ email, password })
     })
-      .then(res => res.json())
+      .then(res => {
+        if (res.status !== 200) {
+          console.error('Bad User or PW');
+        } else {
+          return res.json();
+        }
+      }
+      )
       .then(user => {
         this.context.login(user);
-        this.props.closeDrawer();
+        return this.props.history.push('/user');
       })
       .catch(err => console.error(err));
   }
@@ -43,11 +50,11 @@ class UserLogIn extends React.Component {
           <form className='d-flex flex-column' onSubmit={this.submitUserInformation}>
             <label>
               Email
-              <input name='email' type='text' className='userLogInEmail border' value={email} onChange={this.infoInput} />
+              <input name='email' type='text' className='userLogInEmail border' value={email} onChange={this.infoInput} required/>
             </label>
             <label>
               Password
-              <input name='password' type='password' className='userLogInPassword border' value={password} onChange={this.infoInput}/>
+              <input name='password' type='password' className='userLogInPassword border' value={password} onChange={this.infoInput} required/>
             </label>
             <button className='userLogInLogIn mt-4' value='submit'> LOG IN </button>
           </form>
@@ -57,7 +64,7 @@ class UserLogIn extends React.Component {
           <button
             className='userLogInSignUp'
             onClick={() => this.props.setView('signup')}>
-             SIGN UP
+              SIGN UP
           </button>
         </div>
       </div>

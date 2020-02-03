@@ -1,13 +1,13 @@
 require('dotenv/config');
 const express = require('express');
-
 const db = require('./database');
 const bcrypt = require('bcrypt');
 const format = require('pg-format');
 const ClientError = require('./client-error');
 const staticMiddleware = require('./static-middleware');
 const sessionMiddleware = require('./session-middleware');
-
+const path = require('path');
+const multer = require('multer');
 const app = express();
 
 app.use(staticMiddleware);
@@ -198,6 +198,7 @@ app.get('/api/auth', (req, res, next) => {
            "u"."firstName",
            "u"."lastName",
            "u"."email",
+           "u"."photo",
            "u"."verified"
       from "users" as "u"
      where "userId" = $1
@@ -265,7 +266,7 @@ app.put('/api/users/:userId', (req, res, next) => {
   }
 
   const sql = format(
-      `update %I
+    `update %I
           set "firstName" = %L,
               "lastName" = %L,
               "email" = %L
@@ -284,6 +285,45 @@ app.put('/api/users/:userId', (req, res, next) => {
 app.delete('/api/auth', (req, res, next) => {
   delete req.session.userId;
   return res.status(204).json({ user: null });
+});
+
+const photoStorage = multer.diskStorage({
+  destination: './server/public/images/uploads/',
+  filename: function (req, file, cb) {
+    cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+  }
+});
+
+const upload = multer({ storage: photoStorage }).single('userPhoto');
+
+app.put('/api/upload-image', (req, res, next) => {
+  const { userId } = req.session;
+  const userIdIsValid = typeof parseInt(userId) === 'number' && userId > 0;
+
+  if (!userIdIsValid || !userId) {
+    throw next(new ClientError('Id must be a positive integer.', 400));
+  }
+
+  upload(req, res, err => {
+    const imagePath = `/images/uploads/${req.file.filename}`;
+    if (err) {
+      next(err);
+    }
+    const sql = format(
+        `update %I
+            set "photo" = %L,
+                "verified" = true
+          where "userId" = %L
+      returning *;`, 'users', imagePath, userId
+    );
+
+    db.query(sql)
+      .then(result => {
+        const user = result.rows[0];
+        res.json(user);
+      })
+      .catch(err => next(err));
+  });
 });
 
 app.use('/api', (req, res, next) => {

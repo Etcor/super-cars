@@ -48,9 +48,8 @@ class NavMenu extends React.Component {
       <nav
         className={`${this.props.show ? 'side-drawer' : 'side-drawer hidden'}`}>
         <div
-          className='exitNavLogin far fa-arrow-alt-circle-right'
-          onClick={this.props.drawerOpen}
-          style={{ color: 'black', fontSize: '5vh' }} />
+          className='exitNavLogin fas fa-chevron-right'
+          onClick={this.props.drawerOpen} />
         <div
           className='displayContentInNavMenu'>
           {this.displayPage()}

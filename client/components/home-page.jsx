@@ -13,7 +13,7 @@ class Home extends React.Component {
           <div className="container-vertical pt-5">
             <div className="home-title">
               DISCOVER
-              <p style={{ fontSize: '1.6rem' }} className="text-right m-0">
+              <p style={{ fontSize: '2.2rem' }} className="text-right m-0">
                 YOUR
               </p>
             </div>

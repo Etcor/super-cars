@@ -9,15 +9,16 @@ class UpdateAccount extends React.Component {
       userId: '',
       firstName: '',
       lastName: '',
-      email: ''
+      email: '',
+      photo: ''
     };
     this.infoInput = this.infoInput.bind(this);
     this.updateSubmitHandler = this.updateSubmitHandler.bind(this);
   }
 
   componentDidMount() {
-    const { userId, firstName, lastName, email } = this.context.user;
-    this.setState({ userId, firstName, lastName, email });
+    const { userId, firstName, lastName, email, photo } = this.context.user;
+    this.setState({ userId, firstName, lastName, email, photo });
   }
 
   infoInput() {
@@ -42,6 +43,11 @@ class UpdateAccount extends React.Component {
       .catch(err => console.error(err));
   }
 
+  displayUserPhoto() {
+    const { photo } = this.state;
+    return typeof photo === 'object' || !photo ? <i className="fas fa-user fa-7x mb-3" /> : <img className='userImage mb-3' src={`${photo}`} />;
+  }
+
   render() {
     const { firstName, lastName, email, updateButtonClicked } = this.state;
     return (
@@ -49,17 +55,16 @@ class UpdateAccount extends React.Component {
         <Header title='Update Account' linkTo={'/user'} back={true}/>
         <div
           className='d-flex flex-column justify-content-center align-items-center'
-          style={{ height: '275px', paddingTop: '40px' }}>
-          <h4>{firstName} {lastName}</h4>
-          <i className="fas fa-user fa-7x mt-2"></i>
+          style={{ paddingTop: '45px' }}>
+          <h4 className="mt-3">{firstName} {lastName}</h4>
+          {this.displayUserPhoto()}
         </div>
         <div className='updateAccountContainer'>
-
-          <form className='d-flex flex-column px-3 justify-content-center' onSubmit={this.updateSubmitHandler}>
+          <form className='d-flex flex-column justify-content-center px-5' onSubmit={this.updateSubmitHandler}>
             <label className='text-muted'>
               First Name
               <input
-                className='border my-1'
+                className='border my-2 pl-2'
                 style={{ width: '100%', borderRadius: '4px' }}
                 name='firstName' type='text'
                 value={firstName}
@@ -68,7 +73,7 @@ class UpdateAccount extends React.Component {
             <label className='text-muted'>
               Last Name
               <input
-                className='border my-1'
+                className='border my-2 pl-2'
                 style={{ width: '100%', borderRadius: '4px' }}
                 name='lastName' type='text'
                 value={lastName}
@@ -77,7 +82,7 @@ class UpdateAccount extends React.Component {
             <label className='text-muted'>
               Email
               <input
-                className='border my-1'
+                className='border my-2 pl-2'
                 style={{ width: '100%', borderRadius: '4px' }}
                 name='email' type='text'
                 value={email}
@@ -85,8 +90,7 @@ class UpdateAccount extends React.Component {
             </label>
           </form>
           <div
-            className='d-flex justify-content-center align-items-center mx-3'
-            style={{ height: '30vh' }}>
+            className='d-flex justify-content-center align-items-center mx-3 mt-4'>
             <button
               className='btn btn-danger'
               onClick={this.updateSubmitHandler}
