@@ -1,6 +1,6 @@
 # Super Cars
 
-A full stack PERN web application for users who want to rent and experience super cars.
+A full stack (PERN) web application for users who want to rent and experience super cars.
 
 ### Figma
 
