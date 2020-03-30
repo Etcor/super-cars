@@ -2,7 +2,8 @@
 
 A full stack (PERN) web application for users who want to rent and experience super cars.
 
-Built by: Timothy Lee, Ethan Cordes, Andrew Robins, Kamryn Min
+> - Built by: `Timothy Lee, Ethan Cordes, Andrew Robins, Kamryn Min`
+
 ### Figma
 
 https://www.figma.com/file/nromB5pPToLEc15l6IfesM/Final-Project-Layout?node-id=0%3A1
